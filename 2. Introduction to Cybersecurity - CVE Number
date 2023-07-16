@@ -1,0 +1,7 @@
+What is the CVE ID that is related to EternalBlue
+
+Flag Format: XXX-XXXX-XXXX
+
+This is pretty much straight forward, a quick google search tells us the CVE for EternalBlue(MS17-010).
+
+Side Note; Interestingly, the name "EternalBlue" is the name for both the vulnerability and its exploit.
