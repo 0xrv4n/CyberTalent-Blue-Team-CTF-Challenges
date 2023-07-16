@@ -1,0 +1,48 @@
+Let not the "introduction" in the name fool you, because this is where things start to get real
+
+################################################################################################################
+Our server compromised due to known vulnerability introduced from many years, Kindly check and identify this flow 
+
+X: Attack source → EX. “Internal/External”
+Y: The Source IP → x.x.x.x
+Z: CVE Num of the attack → xxx
+W: Destination Mac Address
+Flag format: flag{X:Y:Z:w}
+Link: https://to-be-uploaded
+################################################################################################################
+
+See?
+
+There is a link; https://hubchallenges.s3.eu-west-1.amazonaws.com/foren/backdoor.pcap and it downloads downloads a .pcap file.
+
+If you don't know what a pcap file is, it means Packet Capture file and it is a file where captured network traffic is stored, it contains IPs, MACs, Source and Destination information, services, ports etc. see 
+https://www.solarwinds.com/resources/it-glossary/pcap#:~:text=PCAP%20files%20are%20data%20files,traffic%20and%20determining%20network%20status for more information
+
+Now to view the traffic that has been stored inside a pcap file you need tools like Wiresharck, tshark, Scapy, tcpdump etc.
+For this challenge I used Wireshark
+
+After opening the pcap file(and being discoraged by the sheer amount of data to comb through), i tried different search filters in a bid to identify protocols and service interactions that have been captured;
+
+*  http - No hits
+*  http2 -  No hits
+*  http3 - No hits
+*  smb - No hits (really thought i would get lucky there, yunno..eternalblue and all)
+*  ftp - 4 hits
+
+After careful examination of these four messages we can tell that that it is a communication between the Server and the Attacker.
+The first message is a response from the ftp server with ip:192.168.1.80 to the Attacker with ip:192.168.1.58
+
+From just the IP addresses we know the attacker is 192.168.1.58 and the attack source is internal because from the IP address we see they are both in the same network
+
+we update the flag in accordingly; flag{internal:192.168.1.58:xxx:Destination Mac Address} - Now all we need is the CVE number of the vulnerability the attacker utilized and the Destination MAC Address
+
+After taking a closer look at the message from the attacker to the server I found the destination MAC Address: 08:00:27:66:e3:8b
+Updating the flag we have fag{internal:192.168.1.58:xxx:08:00:27:66:e3:8b}
+
+All that's left is the CVE ID for the vulnerability and i got this by simply googling for the vulnerablility in the ftp version(2.3.4) which is CVE-2011-2523
+The final flag is: flag{Internal:192.168.1.58:CVE-2011-2523:08:00:27:66:e3:8b}t
+
+And that's it, all done
+
+The road to Certified SOC Analyst & Threat Hunter is a long one.
+May the hack be with us! ;p
