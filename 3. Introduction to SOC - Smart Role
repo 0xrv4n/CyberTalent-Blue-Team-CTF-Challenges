@@ -1,0 +1,12 @@
+skills of collecting information out of cyberspace that has been previously analysed and shared between organisations about different attack scenarios and vectors.
+What is the role name of the above definition?
+
+A Simple question that tests your understanding of the lesson.
+
+I tried "Threat Intelligence" and i got an incorrect submission, though i knew the answer was correct, so i tried inserting it in curly {} braces {Threat Intelligence} but still got an error
+
+Then i remembered the flag format;
+flag{}
+Since the normal answer to the challenge was being flagged as an error i thought to insert the answer in the flag format and voila!
+
+flag{Threat Intelligence} was flagged as correct.
