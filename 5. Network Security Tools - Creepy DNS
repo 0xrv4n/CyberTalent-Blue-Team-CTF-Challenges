@@ -1,0 +1,36 @@
+#################################################################################################################
+"Our NMS detect a suspected traffic, your task is to investigate the captured traffic and find the anomaly reason
+"
+#################################################################################################################
+
+When you click the link provided you're going to get a "dns.pcapng" file will be downloaded.
+Now this is pretty straight forward, getting a .pcap or .pcapng file means we've gotta fire up wireshark or your favourite network traffic analysis tool
+
+So now unto analysis
+
+So i opened up wireshark as initially intended and this is where things started to get puzzling
+As per the challenge name i did not bother going through any other filters asides "dns"
+
+which brought up a lot of traffic, which is to be expected so i didn't know what i was looking for exactly
+So i spent quite some time looking at the gibberish in front of me trying to figure what i was looking for, then i decided to look at the DNS servers at the last column "info", i figured i'd spot a "creepy DNS"
+maybe one renamed to resemble the defaults but after going through them no luck, all of them looked legit word for word or so i thought.
+
+I decided to hit the program's discord to seek out more info on the challenge, in case someone had done it maybe they could gimme a hint and while trying to sift through the large amount of messages on the discord server using the search option to find something specific i came accross this command someone tried out;
+
+tshark -r dns.pcapng -Y "dns.qry.type ==1"
+
+For those who aren't familiar with tshark it's kinda like wireshark but on the terminal, tshark, terminal-shark i guess, see more here: https://infosecwriteups.com/introduction-to-tshark-b425fc86ef0d#:~:text=TShark%20is%20a%20network%20protocol,the%20packets%20to%20a%20file.
+
+The above command works like the filter in wireshark does so it brough out all DNS records in the file and then looking at it from  my aesthetic hacker terminal, it hit me
+
+An eureka moment as i had seen something similar like this in another CTF, so to make things easier for me i ran;
+
+tshark -r dns.pcapng -Y "dns.qry.type ==1" | grep "cybertalents.com"
+
+adding the " | grep "cybertalents.com" highlighted every cybertalent entry in red which made for easier readability, the trick here is in the way the DNS records are presented
+Z.cybertalents.com ....... m.cybertalents.com ...... x.cybertalents.com etc, taking the letters before .cybertalents.com not repeating same letter that appears in succession sure enough brings us to an encoded string which by the looks of it i guessed base64
+
+And sure enough after passing it through my handy dandy base64 decoder, i got the flag!
+
+The road to Certified SOC Analyst & Threat Hunter is a long one.
+May the hack be with us! ;p
